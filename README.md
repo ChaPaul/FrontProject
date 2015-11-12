@@ -13,12 +13,14 @@ Pour lancer/voir l'app :
 
 le code où ca se passe ?
 
-pages html :
-dans views/
-views/layout.jade : header et footer
-views/index.jade : contenu de l'index ...
+HTML :
 
-Js/css : 
+1. allez dans views/ :
+2. views/layout.jade : header et footer
+3. views/index.jade : contenu de l'index ...
+
+Js & CSS :
+
 1. allez dans public/ (tout est la)
 2. lancez votre tache "gulp"
 3. Codez !
