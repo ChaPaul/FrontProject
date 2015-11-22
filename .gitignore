@@ -1,0 +1,8 @@
+$ cat .gitignore
+
+# vidéos
+/public/assets/trailer/*.mp4
+/public/assets/trailer/SD/*.mp4
+
+# les modules
+/node_modules/*
