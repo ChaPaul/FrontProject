@@ -1,12 +1,15 @@
-var Synopsis = function(){
-	this.title = this.filmTitle +' : '+this.filmSubtitle;
-	this.cross = $('.cross');
+var Synopsis = function(filmObj){
+	this.title = filmObj.title +' : '+filmObj.subtitle;
+	console.log(this.title);
+	this.cross = $('#syno .cross');
 	// etc ...
 }
 Synopsis.prototype.init = function() {
-
+	$('.syno-title').text(this.title)
 };
 Synopsis.prototype.show = function() {
+
+	this.init();
 
 	var self = this;
 

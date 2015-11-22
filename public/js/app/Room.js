@@ -12,7 +12,8 @@ var Room = function  () {
 	this.synopsisCta = $('#synopsis');
 	this.bookingCta = $('#booking');
 
-	this.cross = $('.cross');
+	this.cross = $('.trailer-container .cross');
+	this.play = $('.trailer-container .continue');
 }
 Room.prototype.init = function() {
 
@@ -29,8 +30,8 @@ Room.prototype.init = function() {
 	this.videoBg.load();
 	this.videoBg.autobuffer=true;
 
-	$('.title').text(this.filmTitle);
-	$('.subtitle').text(this.filmSubtitle);
+	$('.title').text(this.film.title);
+	$('.subtitle').text(this.film.subtitle);
 };
 Room.prototype.show = function() {
 	// body...
@@ -50,7 +51,6 @@ Room.prototype.show = function() {
 	});
 };
 Room.prototype.hide = function(callback) {
-
 	// unbind
 	this.unbind();
 	
@@ -68,11 +68,13 @@ Room.prototype.unbind = function() {
 	this.bookingCta.off('click',$.proxy(this.onBookingCtaClick, this));
 
 	this.cross.off('click',$.proxy(this.closeTrailer, this));
+	this.play.off('click',$.proxy(this.playPause, this));
 
 	$(window).off('keydown',$.proxy(this.onKeyDown, this));
 
 	$(window).off('mousemove', $.proxy(this.onMouseMove, this));
 	this.videoFg.off('timeupdate',$.proxy(this.timeUpdate, this));
+	this.videoFg.off('ended',$.proxy(this.closeTrailer, this));
 };
 Room.prototype.bind = function() {
 
@@ -87,6 +89,7 @@ Room.prototype.bind = function() {
 
 	// Play/Pause
 	this.cross.on('click',$.proxy(this.closeTrailer, this));
+	this.play.on('click',$.proxy(this.playPause, this));
 
 	// keyboard
 	$(window).on('keydown',$.proxy(this.onKeyDown, this));
@@ -107,7 +110,7 @@ Room.prototype.onTrailerCtaClick = function() {
 };
 Room.prototype.onSynopsisCtaClick = function() {
 	// we'll see
-	var synopsis = new Synopsis();
+	var synopsis = new Synopsis(this.film);
 	synopsis.show();
 };
 Room.prototype.onBookingCtaClick = function() {
@@ -133,35 +136,39 @@ Room.prototype.onKeyDown = function(e) {
 
 	if ( $('.title-container').is(':hidden')){
 		if ( e.keyCode == 27 ){			
-				this.closeTrailer();			
+			this.closeTrailer();			
 		}
 		if ( e.keyCode == 32 ){
-			if ( this.videoBg[0].paused ){
-				this.videoBg[0].play();
-				this.videoFg[0].play();
-			} 
-			else {				
-				this.videoBg[0].pause();
-				this.videoFg[0].pause();
-			}
+			this.playPause();
 		}
+	}
+};
+Room.prototype.playPause = function() {
+
+	if ( this.videoBg[0].paused ){
+		$('.square').remove();
+		this.videoBg[0].play();
+		this.videoFg[0].play();
+		this.play.hide();
+	} 
+	else {				
+		this.videoBg[0].pause();
+		this.videoFg[0].pause();
+		this.play.show();
 	}
 };
 Room.prototype.closeTrailer = function() {
 	$('.progress').hide();
 	this.cross.hide();
+	$('.square').remove();
 
-	var self = this;
-
-	// self.videoFg[0].pause();
-	// self.videoBg[0].pause();
+	this.videoBg[0].pause();
+	this.videoFg[0].pause();
+	this.play.hide();
 
 	$('.subtitle').fadeIn();
 	$('.cta-container').fadeIn();
-	$('.title-container').fadeIn(function(){
-			self.videoFg[0].pause();
-			self.videoBg[0].pause();
-	});
+	$('.title-container').fadeIn();
 };
 
 Room.prototype.onAnimateIn = function() {
@@ -169,7 +176,7 @@ Room.prototype.onAnimateIn = function() {
 	$(window).on('mousemove', $.proxy(this.onMouseMove, this));
 
 	this.videoFg.on('timeupdate',$.proxy(this.timeUpdate, this));
-	// this.trailerVideo.on('ended',$.proxy(this.closeTrailer, this));
+	this.videoFg.on('ended',$.proxy(this.closeTrailer, this));
 };
 Room.prototype.timeUpdate = function() {
 	var currentTime = this.videoFg[0].currentTime;
@@ -177,6 +184,36 @@ Room.prototype.timeUpdate = function() {
 	var percent = currentTime / duration * 100;
 
 	$('.trailer-container .progress').css('width', percent + '%');
+
+	// pour les box sur chaques vidéos
+	this.onTimeUpdatePopBox();
+};
+Room.prototype.onTimeUpdatePopBox = function() {
+
+	var self = this;
+
+	myPopBox = this.popBox;
+
+	$.each(myPopBox, function(key, val){
+		if(typeof val != 'undefined' && val.time == Math.floor(self.videoFg[0].currentTime)){
+			
+			val.axe == 'left' ? val.axe = 'flip' : val.axe = '';
+
+			var newPopBox = '<div style="top:'+val.posY+'%;left:'+val.posX+'%;" class="square '+val.size+' '+val.axe+'"><div class="losange"></div><div class="title">'+val.title+'</div><div class="desc">'+val.desc+'</div></div>';
+
+			// console.log(newPopBox);
+
+			// pour faire la pause qu'une seule fois au cas où il y a pls résultats
+			if ( !(self.videoFg[0].paused) ){
+				self.playPause();
+			}
+
+			$(newPopBox).appendTo($( ".trailer-container" ));
+
+			// évitons les récurrences inutiles...
+			myPopBox.splice(key, 1);
+		}
+	});
 };
 
 
@@ -188,43 +225,4 @@ Room.prototype.timeUpdate = function() {
 // parallax des différents éléments à l'aide de cette fonction :
 Room.prototype.onMouseMove = function(e) {
 	
-	$('div[data-axe]').each(function(){
-		var elem = $(this);
-		var coeff = 100 - elem.data('speed');
-    	var x = (this.offsetLeft + this.offsetWidth/2) - e.pageX / coeff;
-   		var y = (this.offsetTop + this.offsetTop/2 ) - e.pageY / coeff;
-    	elem.offset({ top: y ,left : x });
-    	// var x = this.offsetLeft;
-		// var y = this.offsetTop;
-
-		// console.log('x : '+ x + 'y :' + y);
-
-		// // à lier au container
-		// var centerX = $(window).width()/2;
-		// // this.offsetLeft + (this.offsetWidth/2);
-		// var centerY = $(window).height()/2;
-		// // this.offsetTop + (this.offsetHeight/2);
-
-		// var percentX = (e.pageX*(100+coeff))/$(window).width();
-		// var percentY = (e.pageY*(100+coeff))/$(window).height();
-
-		// if( centerX < e.pageX){
-		// 	elem[0].offsetLeft = percentX;
-		// 	// var x = centerX - e.pageX / coeff;
-		// }else if( centerX > e.pageX){
-		// 	elem[0].offsetLeft = 100 - percentX;
-		// 	// var x = centerX + e.pageX / coeff;
-		// }
-    	
-  		//if( centerY < e.pageY){
-		// 	elem[0].offsetTop = 100 - percentY;
-		// 	// var y = centerY - e.pageY / coeff;
-		// }else if( centerY > e.pageY){
-		// 	elem[0].offsetTop = 100 - percentY;
-		// 	// var y = centerY + e.pageY / coeff;
-		// }
-
-    	
-    	// console.log('x" : '+ percentX + 'y" :' + percentY);
-	});
 };
