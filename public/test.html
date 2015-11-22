@@ -16,18 +16,66 @@
 
   </head>
   <body>
-
-    <!-- Main container -->
-    <div class="container">
-      <h1>Hey !</h1>
-      <div id="seats" class="clearfix">
-        <div class="seat"></div>
-        <div class="seat"></div>
-        <div class="seat"></div>
-        <div class="seat"></div>
-        <div class="seat"></div>
+    <div id="room">
+      <div class="trailer-container">
+        <video class="fg-trailer" paused poster="">
+          <source src='' type="video/mp4">
+        </video>
+        <div class="progress"></div>
+        <div class='cross icons'>
+          <svg version="1.1" id="Calque_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 41.4 41.4" style="enable-background:new 0 0 41.4 41.4;" xml:space="preserve"><rect x="-7.8" y="19.9" transform="matrix(0.7071 0.7071 -0.7071 0.7071 20.7053 -8.5764)" width="57" height="1.6"/><rect x="-7.8" y="19.9" transform="matrix(-0.7071 0.7071 -0.7071 -0.7071 49.987 20.7053)" width="57" height="1.6" /></svg>
+        </div>
+        <!-- TITLE and ARROWS -->
+            <div class='title-container'>
+              <div class="clearfix">
+                <div class="arrow-left icons">
+                  <svg version="1.1" id="Calque_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 89.5 142.4" style="enable-background:new 0 0 89.5 142.4;" xml:space="preserve"><polygon points="36.5,71.2 89.5,18.3 71.2,0 0,71.2 71.2,142.4 89.5,124.1 "/></svg>
+                </div>
+                <h1 class="title"></h1>
+                <div class="arrow-right icons">
+                  <svg version="1.1" id="Calque_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 89.5 142.4" style="enable-background:new 0 0 89.5 142.4;" xml:space="preserve"><polygon points="36.5,71.2 89.5,18.3 71.2,0 0,71.2 71.2,142.4 89.5,124.1 "/></svg>
+                </div>
+              </div>
+            </div>
+            <h2 class="subtitle"></h2>
+        <!-- CTA -->
+        <div class="cta-container clearfix">
+          <div class="cta" id='synopsis'>SYNOPSIS</div>
+          <div class="cta" id='trailer'>TRAILER</div>
+          <div class="cta" id='booking'>RESERVER</div>
+        </div>
+        <!-- POP BOX -->
+      </div>
+      <video class="bg-trailer" paused poster="" muted>
+        <source src='' type="video/mp4">
+      </video>
+    </div>
+    <!-- SYNOPSIS -->
+    <div id="syno">
+      <div class='content-container'>
+        <h1 class='syno-title'>STAR WARS VII : The Force Awakens</h1>
+        <p class="syno-real">Réalisateur : Jabbah le Hut</p>
+        <div class="syno-nav">
+          <div id="syno-syno" class='nav clicked'>Synopsis</div>
+          <div id="background" class='nav'>Background</div>
+          <div id="casting" class='nav'>Casting</div>
+        </div>
+        <div class='content'>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla faucibus augue eget enim imperdiet, non tincidunt enim lacinia. Fusce tristique sagittis faucibus. Morbi sed tempus ex. In iaculis eros eu lectus sagittis posuere. Vestibulum tellus nunc, vestibulum at consectetur at, mattis at nisi. Mauris ornare euismod urna, a commodo enim scelerisque et. Cras sed orci et justo lobortis euismod vitae ac metus. Integer fermentum dui sed urna varius, at cursus nulla vestibulum. Sed sit amet urna interdum, consequat dui aliquam, consequat nulla. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus
+          <div class="cta-container">
+            <div class="cta" id='synopsis'>TRAILER</div>
+            <div class="cta" id='trailer'>RESERVATIONS</div>
+          </div>
+        </div>
+        <div class='cross icons'>
+          <svg version="1.1" id="Calque_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 41.4 41.4" style="enable-background:new 0 0 41.4 41.4;" xml:space="preserve"><rect x="-7.8" y="19.9" transform="matrix(0.7071 0.7071 -0.7071 0.7071 20.7053 -8.5764)" width="57" height="1.6"/><rect x="-7.8" y="19.9" transform="matrix(-0.7071 0.7071 -0.7071 -0.7071 49.987 20.7053)" width="57" height="1.6" /></svg>
+        </div>
       </div>
     </div>
+    <!-- BOOKING -->
+
+
+
 
     <!-- Scripts -->
     <script src="js/dist/vendors.js"></script>

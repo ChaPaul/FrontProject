@@ -25,16 +25,19 @@ Booking.prototype.bind = function() {
 Booking.prototype.onSeatClick = function(e) {
 
 	e.preventDefault();
+	
+	var seatId = e.target.id;
 
-	var seatId = e.target.attr('id');
+	console.log(seatId);
 
 	$(e.target).toggleClass('clicked');
+	// on prépare un objet BookInfo pour envoyer les données aux serveur plus tard
 	if ($(e.target).hasClass('clicked')){
-		this.nb += 1;
-		this.bookInfo.ids.push(e.target.attr('id'));
+		this.bookInfo.nb += 1;
+		this.bookInfo.ids.push(seatId);
 	}else{
-		this.nb -= 1;
+		this.bookInfo.nb -= 1;
 		this.bookInfo.ids.splice(this.bookInfo.ids.indexOf(seatId), 1);
 	}
-	console.log("nb : "+ this.nb + " ids "+ this.bookInfo.ids);
+	// console.log("nb : "+ this.bookInfo.nb + " ids : " + this.bookInfo.ids);
 };
