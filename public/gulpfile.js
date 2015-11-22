@@ -50,6 +50,6 @@ gulp.task('js_libs', function() {
               this.emit('end');
          }}))
          .pipe(concat("vendors.js"))
-         .pipe(gulp.dest('js/vendor/'))
+         .pipe(gulp.dest('js/dist/'))
 
 });
