@@ -27,6 +27,16 @@ App.prototype.init = function() {
 
 $(document).ready(function(){
 
-	var app = new App();
+	document.getElementById('scene').className='view-projecteur scene';
+
+	$('#start').click(function(e){
+		$(this).fadeOut('slow');
+
+		setTimeout(function(){ 
+
+			var app = new App();
+			$('#all').css('display','none');
+		}, 1400);
+	});
 
 });

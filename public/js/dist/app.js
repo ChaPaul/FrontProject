@@ -27,7 +27,17 @@ App.prototype.init = function() {
 
 $(document).ready(function(){
 
-	var app = new App();
+	document.getElementById('scene').className='view-projecteur scene';
+
+	$('#start').click(function(e){
+		$(this).fadeOut('slow');
+
+		setTimeout(function(){ 
+
+			var app = new App();
+			$('#all').css('display','none');
+		}, 1400);
+	});
 
 });
 
@@ -61,7 +71,7 @@ Room.prototype.init = function() {
     this.videoBg.attr( "poster", this.posterBg );
     $('#room .bg-trailer source').attr( "src", this.sourceBg );
 	this.videoBg.load();
-	this.videoBg.autobuffer=true;
+	// this.videoBg.autobuffer=true;
 
 	$('.title').text(this.film.title);
 	$('.subtitle').text(this.film.subtitle);
@@ -77,7 +87,7 @@ Room.prototype.show = function() {
 		$('.fullswitch').css('display','none');
 	}, 3000);
 
-	this.domElem.fadeIn(function(){
+	this.domElem.fadeIn('slow',function(){
 
 		// Une fois que le domElem est affiché
 		// On appelle une fonction dans laquelle on pourra mettre
