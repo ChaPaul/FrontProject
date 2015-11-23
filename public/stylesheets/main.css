@@ -135,7 +135,11 @@ input[type="submit"] {
 #start:hover {
   background-color: #e8ba5b;
   color: #fff;
-  transition: all 0.2s ease-in; }
+  transition: all 0.2s ease-in;
+  -webkit-transition: all 0.2s ease-in; }
+
+#all {
+  transition: all 0.5s ease-in; }
 
 #tridiv {
   perspective: 800px;
@@ -982,6 +986,9 @@ input[type="submit"] {
 .view-topView .sieges:hover .face {
   background-color: red !important; }
 
+.sieges.clicked .face {
+  background-color: #e8ba5b !important; }
+
 /* RANG 1 */
 #siege-1 {
   transform: translate3D(16em, 7.4em, 8.4em); }
@@ -1543,9 +1550,21 @@ input[type="submit"] {
   height: 0;
   clear: both; }
 
+/*classe ajouté à #all*/
+.booking-bloc {
+  position: absolute;
+  display: block;
+  width: 48%;
+  left: 2%;
+  height: 100%;
+  top: 50%;
+  transform: translateY(-35%);
+  -webkit-transform: translateY(-35%); }
+
 .booking {
-  margin-top: -50px;
-  margin-left: -50px;
+  display: none; }
+
+.booking {
   position: absolute;
   height: 100%;
   width: 100%; }

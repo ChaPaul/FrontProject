@@ -132,7 +132,21 @@ Room.prototype.onSynopsisCtaClick = function() {
 };
 Room.prototype.onBookingCtaClick = function() {
 	// we'll see
-	alert('Wait For it !');
+	this.unbind();
+	this.removeImg();
+
+	var self = this;
+
+	this.domElem.fadeOut(function(){
+		$('#all').css('display','block');
+		setTimeout(function(){
+			document.getElementById('scene').className='view-topView scene';
+		}, 1000);
+		setTimeout(function(){
+			var bookingClass = new Booking(self);
+			bookingClass.show();
+		}, 2000);
+	})
 };
 Room.prototype.onNextButtonClick = function() {
 

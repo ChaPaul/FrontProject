@@ -175,7 +175,21 @@ Room.prototype.onSynopsisCtaClick = function() {
 };
 Room.prototype.onBookingCtaClick = function() {
 	// we'll see
-	alert('Wait For it !');
+	this.unbind();
+	this.removeImg();
+
+	var self = this;
+
+	this.domElem.fadeOut(function(){
+		$('#all').css('display','block');
+		setTimeout(function(){
+			document.getElementById('scene').className='view-topView scene';
+		}, 1000);
+		setTimeout(function(){
+			var bookingClass = new Booking(self);
+			bookingClass.show();
+		}, 2000);
+	})
 };
 Room.prototype.onNextButtonClick = function() {
 
@@ -342,9 +356,11 @@ Synopsis.prototype.onBookingCtaClick = function() {
 };
 
 
-var Booking = function  () {
-	this.domElem=$("#");
-	this.seat = $(".seat");
+var Booking = function  (prev) {
+	this.seat = $(".sieges");
+	this.back = $('.back');
+
+	this.prev = prev;
 	
 	//book object ajax
 	this.bookInfo = {};
@@ -353,6 +369,9 @@ var Booking = function  () {
 }
 
 Booking.prototype.show = function() {
+	$( "#all" ).addClass('booking-bloc');
+	$(".booking").fadeIn();
+	$(".sieges").css('display','block');
 
 	this.bind();
 };
@@ -360,23 +379,40 @@ Booking.prototype.show = function() {
 Booking.prototype.hide = function() {
 
 	this.unbind();
+	$(".sieges").css('display','none');
+	$( "#all" ).removeClass('booking-bloc');
+	$(".booking").fadeOut();
+	var self = this;
+	document.getElementById('scene').className='view-fullscreen scene';
+	setTimeout(function(){
+			$('#all').fadeOut('slow',function(){
+				self.prev.show();
+			});
+	}, 1300);
+	// on remontre l'ancienne page
 };
+Booking.prototype.unbind = function() {
+	this.seat.off('click', $.proxy(this.onSeatClick, this));
+	this.back.off('click', $.proxy(this.hide, this));
 
+};
 Booking.prototype.bind = function() {
 
 	this.seat.on('click', $.proxy(this.onSeatClick, this));
+	this.back.on('click', $.proxy(this.hide, this));
 };
 Booking.prototype.onSeatClick = function(e) {
 
 	e.preventDefault();
-	
-	var seatId = e.target.id;
 
-	console.log(seatId);
+	var theSeat = $(e.target).parents(".sieges");
+	var seatId = theSeat[0].id;
 
-	$(e.target).toggleClass('clicked');
+	// console.log(seatId);
+
+	$(theSeat).toggleClass('clicked');
 	// on prépare un objet BookInfo pour envoyer les données aux serveur plus tard
-	if ($(e.target).hasClass('clicked')){
+	if ($(theSeat).hasClass('clicked')){
 		this.bookInfo.nb += 1;
 		this.bookInfo.ids.push(seatId);
 	}else{
@@ -403,7 +439,7 @@ var Madmax = function  () {
 	this.film.title = "MADMAX";
 	this.film.subtitle = "Fury Road";
 
-	var popBox =[
+		var popBox =[
 		{
 			"time"  : 4,
 			"size"  : 'big',
@@ -436,62 +472,71 @@ var Madmax = function  () {
 			"size"  : 'small',
 			"title" : 'Joe marker',
 			"desc"  : '',
-			"posX"  : 80,
-			"posY"  : 10,
+			"posX"  : 25,
+			"posY"  : 50,
+			"axe"   : 'right',
+		},
+				{
+			"time"  : 17,
+			"size"  : 'small',
+			"title" : 'I belive I can fly',
+			"desc"  : '',
+			"posX"  : 59,
+			"posY"  : 84,
 			"axe"   : 'right',
 		},
 		{
 			"time"  : 17,
 			"size"  : 'medium',
-			"title" : 'I belive I can fly',
-			"desc"  : '',
-			"posX"  : 80,
-			"posY"  : 10,
+			"title" : 'Sea of sand',
+			"desc"  : 'The sea of sand composed of remnants of a long lost civilizations',
+			"posX"  : 57,
+			"posY"  : 30,
 			"axe"   : 'right',
 		},
 		{
-			"time"  : 26,
+			"time"  : 27,
 			"size"  : 'small',
 			"title" : 'The survivor\'s crowd',
 			"desc"  : '',
-			"posX"  : 80,
-			"posY"  : 10,
+			"posX"  : 55,
+			"posY"  : 83,
 			"axe"   : 'right',
 		},
 		{
-			"time"  : 26,
-			"size"  : 'big',
+			"time"  : 27,
+			"size"  : 'medium',
 			"title" : 'The War Rigs',
 			"desc"  : 'The war rig -> The War Rigs driven furiosa to proces goal for gasoline become vital to society',
-			"posX"  : 80,
-			"posY"  : 10,
+			"posX"  : 5,
+			"posY"  : 47,
 			"axe"   : 'right',
 		},
 		{
-			"time"  : 26,
-			"size"  : 'big',
+			"time"  : 27,
+			"size"  : 'small',
 			"title" : 'The bad guy',
 			"desc"  : 'when you were told that cactus alcohol is very strong. Otherwise the real name of the villain is bad bill',
-			"posX"  : 80,
-			"posY"  : 10,
+			"posX"  : 68,
+			"posY"  : 19,
 			"axe"   : 'right',
 		},
 		{
-			"time"  : 32,
+			"time"  : 33,
 			"size"  : 'small',
 			"title" : 'Immortan Joe',
 			"desc"  : 'Former military Joe weakened by time. he became leader of the citadel',
-			"posX"  : 80,
-			"posY"  : 10,
+			"posX"  : 35,
+			"posY"  : 30,
 			"axe"   : 'right',
 		},
 		{
-			"time"  : 35,
-			"size"  : 'big',
+			"time"  : 36,
+			"size"  : 'medium',
 			"title" : 'Furiosa ',
 			"desc"  : 'Furiosa is a immorant Joe’s general.It has betrayed him in order to win his freedom',
-			"posX"  : 80,
-			"posY"  : 10,
+			"posX"  : 41,
+			"posY"  : 34,
 			"axe"   : 'right',
 		},
 		{
@@ -499,26 +544,37 @@ var Madmax = function  () {
 			"size"  : 'small',
 			"title" : 'The War Rigs',
 			"desc"  : '',
-			"posX"  : 80,
-			"posY"  : 10,
+			"posX"  : 64,
+			"posY"  : 70,
 			"axe"   : 'right',
 		},
+		/*
 		{
-			"time"  : 59,
+			"time"  : 60,
 			"size"  : 'small',
 			"title" : 'suicidal',
 			"desc"  : '',
-			"posX"  : 80,
-			"posY"  : 10,
+			"posX"  : 70,
+			"posY"  : 62,
+			"axe"   : 'right',
+		},
+		*/
+		{
+			"time"  : 60,
+			"size"  : 'small',
+			"title" : 'Nux',
+			"desc"  : '',
+			"posX"  : 18,
+			"posY"  : 76,
 			"axe"   : 'right',
 		},		
 		{
-			"time"  : 59,
-			"size"  : 'medium',
+			"time"  : 60,
+			"size"  : 'small',
 			"title" : 'Max',
 			"desc"  : 'Max used as "blood bag" for Nux weakened by disease',
-			"posX"  : 80,
-			"posY"  : 10,
+			"posX"  : 53,
+			"posY"  : 73,
 			"axe"   : 'right',
 		},
 		{
@@ -526,8 +582,8 @@ var Madmax = function  () {
 			"size"  : 'medium',
 			"title" : 'The sand storm',
 			"desc"  : 'Sand storms are common and often spectacular in the world',
-			"posX"  : 80,
-			"posY"  : 10,
+			"posX"  : 65,
+			"posY"  : 30,
 			"axe"   : 'right',
 		},
 		{
@@ -535,56 +591,55 @@ var Madmax = function  () {
 			"size"  : 'small',
 			"title" : 'The Convoy',
 			"desc"  : '',
-			"posX"  : 80,
-			"posY"  : 10,
+			"posX"  : 31,
+			"posY"  : 83,
 			"axe"   : 'right',
 		},
 		{
-			"time"  : 86,
+			"time"  : 97,
 			"size"  : 'small',
 			"title" : 'The Convoy',
 			"desc"  : '',
-			"posX"  : 80,
-			"posY"  : 10,
+			"posX"  : 33,
+			"posY"  : 36,
 			"axe"   : 'right',
 		},
 		{
-			"time"  : 86,
+			"time"  : 97,
 			"size"  : 'small',
 			"title" : 'The horde of Joe',
 			"desc"  : '',
-			"posX"  : 80,
-			"posY"  : 10,
+			"posX"  : 44,
+			"posY"  : 64,
 			"axe"   : 'right',
 		},
 		{
-			"time"  : 59,
+			"time"  : 101,
 			"size"  : 'medium',
 			"title" : 'The bigfoot',
 			"desc"  : 'Joe\'s favorite car with a powerful engine and a heavy armament it écrasse everything that stands in front of her',
-			"posX"  : 80,
-			"posY"  : 10,
+			"posX"  : 40,
+			"posY"  : 55,
 			"axe"   : 'right',
 		},
 		{
-			"time"  : 59,
+			"time"  : 115,
 			"size"  : 'medium',
 			"title" : 'The doof warrior',
 			"desc"  : 'The mysterious guitarist punctuating battles with an unleashed metal ',
-			"posX"  : 80,
-			"posY"  : 10,
+			"posX"  : 17,
+			"posY"  : 39,
 			"axe"   : 'right',
 		},
 		{
-			"time"  : 59,
+			"time"  : 115,
 			"size"  : 'medium',
 			"title" : 'Dodge challenger',
 			"desc"  : '',
-			"posX"  : 80,
-			"posY"  : 10,
+			"posX"  : 64,
+			"posY"  : 82,
 			"axe"   : 'right',
-		}
-		
+		}		
 	];
 	this.popBox = popBox;
 
@@ -617,41 +672,32 @@ var Rango = function  () {
 	this.film.background = "";
 
 	// box trailer interactif
-	var popBox =[
+		var popBox =[
 		{
 			"time"  : 9,
 			"size"  : 'big',
 			"title" : 'The nozzle',
 			"desc"  : 'The nozzle guided by an animal\'s stomach enjoying the well croistiant dragging lizard in the desert',
-			"posX"  : 20,
-			"posY"  : 50,
+			"posX"  : 40,
+			"posY"  : 30,
 			"axe"   : 'right',
 		},
 		{
-			"time"  : 15,
+			"time"  : 13,
 			"size"  : 'big',
 			"title" : 'Rango ',
 			"desc"  : 'Rango is a comedian who dreams of becoming someone he will face many dangers before accomplire his dream',
-			"posX"  : 80,
-			"posY"  : 10,
-			"axe"   : 'left',
-		},
-		{
-			"time"  : 24,
-			"size"  : 'medium',
-			"title" : 'At this moment he knew ',
-			"desc"  : '',
-			"posX"  : 80,
-			"posY"  : 10,
+			"posX"  : 29,
+			"posY"  : 24,
 			"axe"   : 'right',
 		},
 		{
-			"time"  : 24,
+			"time"  : 25,
 			"size"  : 'small',
-			"title" : 'a liquorice',
+			"title" : 'At this moment he knew',
 			"desc"  : '',
-			"posX"  : 80,
-			"posY"  : 10,
+			"posX"  : 57,
+			"posY"  : 15,
 			"axe"   : 'right',
 		},
 		{
@@ -659,17 +705,17 @@ var Rango = function  () {
 			"size"  : 'big',
 			"title" : 'Bean',
 			"desc"  : 'Bean, desert lizard looking to protect its land from drought',
-			"posX"  : 80,
-			"posY"  : 10,
+			"posX"  : 67,
+			"posY"  : 49,
 			"axe"   : 'right',
 		},
 		{
 			"time"  : 50,
-			"size"  : 'big',
+			"size"  : 'medium',
 			"title" : 'Cactus liquor',
 			"desc"  : 'Cactus liquor is very popular in the desert, as strong as a cactus',
-			"posX"  : 80,
-			"posY"  : 10,
+			"posX"  : 14,
+			"posY"  : 61,
 			"axe"   : 'right',
 		},
 		{
@@ -677,8 +723,8 @@ var Rango = function  () {
 			"size"  : 'big',
 			"title" : 'The bad guy',
 			"desc"  : 'when you were told that cactus alcohol is very strong. Otherwise the real name of the villain is bad bill',
-			"posX"  : 80,
-			"posY"  : 10,
+			"posX"  : 25,
+			"posY"  : 28,
 			"axe"   : 'right',
 		},
 		{
@@ -686,8 +732,8 @@ var Rango = function  () {
 			"size"  : 'small',
 			"title" : 'cactus liquor',
 			"desc"  : '',
-			"posX"  : 80,
-			"posY"  : 10,
+			"posX"  : 28,
+			"posY"  : 88,
 			"axe"   : 'right',
 		},
 		{
@@ -695,8 +741,8 @@ var Rango = function  () {
 			"size"  : 'big',
 			"title" : 'John',
 			"desc"  : 'John turtle is the mayor of the town of Dirt and also a businessman heartless',
-			"posX"  : 80,
-			"posY"  : 10,
+			"posX"  : 71,
+			"posY"  : 25,
 			"axe"   : 'right',
 		},
 		{
@@ -704,8 +750,17 @@ var Rango = function  () {
 			"size"  : 'small',
 			"title" : 'Sherif’s star',
 			"desc"  : '',
+			"posX"  : 55,
+			"posY"  : 90,
+			"axe"   : 'right',
+		},
+		{
+			"time"  : 89,
+			"size"  : 'medium',
+			"title" : 'Jake',
+			"desc"  : 'jake le serpent, le plus grand bandit de la région.il possède une gatling au bout de sa queue',
 			"posX"  : 80,
-			"posY"  : 10,
+			"posY"  : 15,
 			"axe"   : 'right',
 		},
 		{
@@ -713,8 +768,8 @@ var Rango = function  () {
 			"size"  : 'big',
 			"title" : 'Bad bill',
 			"desc"  : 'Bad bill ready to unsheathe it is noted that the area of merry companions is very engaging',
-			"posX"  : 80,
-			"posY"  : 10,
+			"posX"  : 51,
+			"posY"  : 14,
 			"axe"   : 'right',
 		},
 		{
@@ -722,17 +777,17 @@ var Rango = function  () {
 			"size"  : 'small',
 			"title" : 'a gun',
 			"desc"  : '',
-			"posX"  : 80,
-			"posY"  : 10,
+			"posX"  : 64,
+			"posY"  : 79,
 			"axe"   : 'right',
 		},
 		{
 			"time"  : 131,
-			"size"  : 'small',
+			"size"  : 'medium',
 			"title" : 'Rango',
 			"desc"  : 'our hero in search of an idea for him to escape from this trap',
-			"posX"  : 80,
-			"posY"  : 10,
+			"posX"  : 17,
+			"posY"  : 46,
 			"axe"   : 'right',
 		}
 
@@ -768,23 +823,23 @@ var Starwars = function  () {
 	this.film.title = "STAR WARS VII";
 	this.film.subtitle = "The Force Awakens";
 
-	var popBox =[
+		var popBox =[
 		{
-			"time"  : 13,
-			"size"  : 'big',
+			"time"  : 14,
+			"size"  : 'medium',
 			"title" : 'BB-8',
 			"desc"  : 'BB-8 is a astrodroid. Its round shape allows it to move it easily on all surfaces',
-			"posX"  : 20,
-			"posY"  : 50,
-			"axe"   : 'left'
+			"posX"  : 32,
+			"posY"  : 73,
+			"axe"   : 'right'
 		},
 		{
-			"time"  : 13,
+			"time"  : 14,
 			"size"  : 'small',
 			"title" : 'The sand dunes of Jakku',
 			"desc"  : '',
 			"posX"  : 80,
-			"posY"  : 10,
+			"posY"  : 38,
 			"axe"   : 'right'
 		},
 		{
@@ -792,8 +847,8 @@ var Starwars = function  () {
 			"size"  : 'big',
 			"title" : 'Rey',
 			"desc"  : 'Rey is a looter wreck Jakku living on the planet, is one of the main characters in the series',
-			"posX"  : 80,
-			"posY"  : 10,
+			"posX"  : 51,
+			"posY"  : 21,
 			"axe"   : 'right',
 		},
 		{
@@ -801,17 +856,17 @@ var Starwars = function  () {
 			"size"  : 'small',
 			"title" : 'piece of wreckage',
 			"desc"  : '',
-			"posX"  : 80,
-			"posY"  : 10,
+			"posX"  : 25,
+			"posY"  : 82,
 			"axe"   : 'right',
 		},
 		{
-			"time"  : 40,
+			"time"  : 41,
 			"size"  : 'big',
 			"title" : 'Finn',
 			"desc"  : 'Finn is a stormtrooper fugitive belonging to the first order. It is a main character in the series',
-			"posX"  : 80,
-			"posY"  : 10,
+			"posX"  : 64,
+			"posY"  : 32,
 			"axe"   : 'right',
 		},
 		{
@@ -819,35 +874,35 @@ var Starwars = function  () {
 			"size"  : 'big',
 			"title" : 'Kylo Ren',
 			"desc"  : 'Kylo Ren is a member of Ren Knight and true worshiper of Darth Vader',
-			"posX"  : 80,
-			"posY"  : 10,
+			"posX"  : 60,
+			"posY"  : 28,
 			"axe"   : 'right',
 		},
 		{
-			"time"  : 60,
-			"size"  : 'medium',
+			"time"  : 61,
+			"size"  : 'small',
 			"title" : 'The wrecks of ancient war',
 			"desc"  : '',
-			"posX"  : 80,
-			"posY"  : 10,
+			"posX"  : 18,
+			"posY"  : 77,
 			"axe"   : 'right',
 		},
 		{
-			"time"  : 60,
-			"size"  : 'medium',
+			"time"  : 61,
+			"size"  : 'small',
 			"title" : 'TIE Fighter',
 			"desc"  : '',
-			"posX"  : 80,
-			"posY"  : 10,
+			"posX"  : 73,
+			"posY"  : 37,
 			"axe"   : 'right',
 		},
 		{
-			"time"  : 60,
-			"size"  : 'medium',
+			"time"  : 61,
+			"size"  : 'small',
 			"title" : 'Millénium falcon',
 			"desc"  : '',
-			"posX"  : 80,
-			"posY"  : 10,
+			"posX"  : 53,
+			"posY"  : 39,
 			"axe"   : 'right',
 		},
 		{
@@ -855,8 +910,8 @@ var Starwars = function  () {
 			"size"  : 'big',
 			"title" : 'Han Solo',
 			"desc"  : 'Han Solo, the famous smuggler makes his return always accompanied by chewbakka',
-			"posX"  : 80,
-			"posY"  : 10,
+			"posX"  : 63,
+			"posY"  : 35,
 			"axe"   : 'right',
 		},
 		{
@@ -864,8 +919,8 @@ var Starwars = function  () {
 			"size"  : 'small',
 			"title" : 'Elite guarde',
 			"desc"  : '',
-			"posX"  : 80,
-			"posY"  : 10,
+			"posX"  : 23,
+			"posY"  : 22,
 			"axe"   : 'right',
 		},
 		{
@@ -873,13 +928,13 @@ var Starwars = function  () {
 			"size"  : 'medium',
 			"title" : 'Kylo Ren light saber',
 			"desc"  : '',
-			"posX"  : 80,
-			"posY"  : 10,
+			"posX"  : 43,
+			"posY"  : 73,
 			"axe"   : 'right',
 		},
 		{
 			"time"  : 88,
-			"size"  : 'big',
+			"size"  : 'medium',
 			"title" : 'Maz Kanata’s castle',
 			"desc"  : 'The castle of Maz Kanata is one of the marks of the Mandalorians, the origne the order of the Sith',
 			"posX"  : 80,
@@ -891,8 +946,8 @@ var Starwars = function  () {
 			"size"  : 'medium',
 			"title" : 'X-wing',
 			"desc"  : '',
-			"posX"  : 80,
-			"posY"  : 10,
+			"posX"  : 60,
+			"posY"  : 63,
 			"axe"   : 'right',
 		},
 		{
@@ -900,57 +955,58 @@ var Starwars = function  () {
 			"size"  : 'small',
 			"title" : 'Mechanic hand',
 			"desc"  : '',
-			"posX"  : 80,
-			"posY"  : 10,
+			"posX"  : 66,
+			"posY"  : 35,
 			"axe"   : 'right',
 		},
 		{
-			"time"  : 118,
-			"size"  : 'big',
+			"time"  : 93,
+			"size"  : 'medium',
 			"title" : 'R2-D2',
 			"desc"  : 'The famous astrodroid of the saga is back. His cheerful beep beep did not finish to make you laughs',
-			"posX"  : 80,
-			"posY"  : 10,
-			"axe"   : 'right',
+			"posX"  : 44,
+			"posY"  : 56,
+			"axe"   : 'left',
 		},
 		{
-			"time"  : 118,
+			"time"  : 96,
 			"size"  : 'small',
 			"title" : 'Captain Phasma',
 			"desc"  : 'Phasma is a captain of stormtrooper. She wears a silver armor, which makes it even more mysterious',
-			"posX"  : 80,
-			"posY"  : 10,
+			"posX"  : 68,
+			"posY"  : 21,
 			"axe"   : 'right',
 		},
 		{
-			"time"  : 118,
+			"time"  : 96,
 			"size"  : 'small',
 			"title" : 'Silver Armor',
 			"desc"  : '',
-			"posX"  : 80,
-			"posY"  : 10,
+			"posX"  : 65,
+			"posY"  : 82,
 			"axe"   : 'right',
 		},
 		{
-			"time"  : 118,
-			"size"  : 'small',
+			"time"  : 106,
+			"size"  : 'medium',
 			"title" : 'Stormtrooper',
 			"desc"  : 'The first order stormtrooper soldier faithful are always dressed with a white armor and armored',
-			"posX"  : 80,
-			"posY"  : 10,
+			"posX"  : 24,
+			"posY"  : 16,
 			"axe"   : 'right',
 		},
 		{
-			"time"  : 118,
+			"time"  : 106,
 			"size"  : 'small',
 			"title" : 'Landing ramp',
 			"desc"  : '',
-			"posX"  : 80,
-			"posY"  : 10,
+			"posX"  : 53,
+			"posY"  : 82,
 			"axe"   : 'right',
 		}
 
 	];
+	
 	this.popBox = popBox;
 
 	Room.apply(this, arguments);

@@ -5,9 +5,21 @@
   height: 0;
   clear: both; }
 
+/*classe ajouté à #all*/
+.booking-bloc {
+  position: absolute;
+  display: block;
+  width: 48%;
+  left: 2%;
+  height: 100%;
+  top: 50%;
+  transform: translateY(-35%);
+  -webkit-transform: translateY(-35%); }
+
 .booking {
-  margin-top: -50px;
-  margin-left: -50px;
+  display: none; }
+
+.booking {
   position: absolute;
   height: 100%;
   width: 100%; }

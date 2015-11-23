@@ -40,14 +40,8 @@
   transition: all 0.2s ease-in;
   -webkit-transition: all 0.2s ease-in; }
 
-.booking-bloc {
-  position: absolute;
-  display: block;
-  width: 48%;
-  left: 2%;
-  height: 100%;
-  top: 50%;
-  transform: translateY(-35%); }
+#all {
+  transition: all 0.5s ease-in; }
 
 #tridiv {
   perspective: 800px;
@@ -893,6 +887,9 @@
 
 .view-topView .sieges:hover .face {
   background-color: red !important; }
+
+.sieges.clicked .face {
+  background-color: #e8ba5b !important; }
 
 /* RANG 1 */
 #siege-1 {
