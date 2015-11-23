@@ -2,20 +2,21 @@
 <html>
   <head>
       <meta charset="utf-8">
-      <!-- <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"> -->
 
-      <title>Mon app</title>
+      <title>Le Cinemarium</title>
       <meta name="description" content="">
 
       <meta name="viewport" content="width=device-width, initial-scale=1">
-
-      <!-- <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700,800,400italic,300italic' rel='stylesheet' type='text/css'> -->
 
       <!-- Stylesheets -->
       <link rel="stylesheet" href="stylesheets/main.css">
 
   </head>
   <body>
+    <ul class="fullswitch">
+      <li class="first"></li>
+      <li class="second"></li>
+    </ul>
     <div id="room">
       <div class="trailer-container">
         <video class="fg-trailer" paused poster="">
@@ -32,7 +33,10 @@
                 <div class="arrow-left icons">
                   <svg version="1.1" id="Calque_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 89.5 142.4" style="enable-background:new 0 0 89.5 142.4;" xml:space="preserve"><polygon points="36.5,71.2 89.5,18.3 71.2,0 0,71.2 71.2,142.4 89.5,124.1 "/></svg>
                 </div>
-                <h1 class="title"></h1>
+                <div class="title-div">
+                  <span class="switcher"></span>
+                  <h1 class="title"></h1>
+                </div>
                 <div class="arrow-right icons">
                   <svg version="1.1" id="Calque_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 89.5 142.4" style="enable-background:new 0 0 89.5 142.4;" xml:space="preserve"><polygon points="36.5,71.2 89.5,18.3 71.2,0 0,71.2 71.2,142.4 89.5,124.1 "/></svg>
                 </div>
@@ -41,9 +45,9 @@
             <h2 class="subtitle"></h2>
         <!-- CTA -->
         <div class="cta-container clearfix">
-          <div class="cta" id='synopsis'>SYNOPSIS</div>
-          <div class="cta" id='trailer'>TRAILER</div>
-          <div class="cta" id='booking'>RESERVER</div>
+          <div class="cta" id='synopsis'></div>
+          <div class="cta" id='trailer'></div>
+          <div class="cta" id='booking'></div>
         </div>
         <!-- POP BOX -->
       </div>

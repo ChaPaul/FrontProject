@@ -1,0 +1,54 @@
+/*img*/
+.img-left{
+	z-index:2;
+	position:absolute;
+	left:0;
+	bottom:0;
+	height:90vh;
+	transform: translateX(-30%) scale(-1, 1);
+	-webkit-transform : translateX(-30%) scale(-1, 1);
+	/*pour pouvoir click à travers l'img*/
+	pointer-events: none;
+}
+#rangoImg{
+	left:12% !important;
+	height:110vh;
+	bottom:-20vh;
+}
+#jackImg{
+	left:90% !important;
+	height:120vh;
+	bottom:-10vh;
+}
+#coupleImg{
+	left:-2% !important;
+	transform: none !important;
+}
+#kyloImg{
+	left:95% !important;
+}
+.img-right{
+	z-index:2;
+	position:absolute;
+	bottom:0;
+	left:100%;
+	height:90vh;
+	transform: translateX(-70%) scale(-1, 1);
+	-webkit-transform : translateX(-70%) scale(-1, 1);
+	/*pour pouvoir click à travers l'img*/
+	pointer-events: none;
+	
+}
+
+
+/*correctif IMG*/
+@media (max-width: 1000px){
+	.start-img{
+		display:none;
+	}
+}
+@media (max-width:1200px) and (min-height:800px){
+	#coupleImg, #kyloImg{
+		display:none;
+	}
+}

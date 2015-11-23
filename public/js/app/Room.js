@@ -38,8 +38,11 @@ Room.prototype.show = function() {
 	this.init();
 
 	this.bind();
-
 	var self = this;
+
+	setTimeout(function(){ 
+		$('.fullswitch').css('display','none');
+	}, 3000);
 
 	this.domElem.fadeIn(function(){
 
@@ -53,10 +56,17 @@ Room.prototype.show = function() {
 Room.prototype.hide = function(callback) {
 	// unbind
 	this.unbind();
+	this.removeImg();
+
+	var self = this;
 	
-	this.domElem.fadeOut(function(){
-		callback();
-	});
+	$('.fullswitch').css('display','block');
+	
+	setTimeout(function(){
+		self.domElem.fadeOut(function(){
+			callback();
+		});
+	}, 1200);
 };
 Room.prototype.unbind = function() {
 
@@ -93,12 +103,17 @@ Room.prototype.bind = function() {
 
 	// keyboard
 	$(window).on('keydown',$.proxy(this.onKeyDown, this));
+
+	// video
+	this.videoFg.on('timeupdate',$.proxy(this.timeUpdate, this));
+	this.videoFg.on('ended',$.proxy(this.closeTrailer, this));
 };
 Room.prototype.onTrailerCtaClick = function() {
 	var self = this;
 	if ( this.domElem.is(':visible') && this.videoBg[0].paused){
 		$('.subtitle').fadeOut();
 		$('.cta-container').fadeOut();
+		this.removeImg();
 		$('.title-container').fadeOut(function(){
 			$('.progress').show();
 			self.cross.show();
@@ -110,6 +125,8 @@ Room.prototype.onTrailerCtaClick = function() {
 };
 Room.prototype.onSynopsisCtaClick = function() {
 	// we'll see
+	this.removeImg();
+
 	var synopsis = new Synopsis(this.film);
 	synopsis.show();
 };
@@ -165,18 +182,32 @@ Room.prototype.closeTrailer = function() {
 	this.videoBg[0].pause();
 	this.videoFg[0].pause();
 	this.play.hide();
+	this.popImg();
 
 	$('.subtitle').fadeIn();
 	$('.cta-container').fadeIn();
 	$('.title-container').fadeIn();
+
+};
+
+Room.prototype.removeImg = function() {
+	// animation image OUT ...
+
+	// then
+	$(".start-img").remove();
+};
+Room.prototype.popImg = function() {
+	// ajout des images
+	$(this.imgRight).appendTo($( "body" ));
+	$(this.imgLeft).appendTo($( "body" ));
+	// animations
 };
 
 Room.prototype.onAnimateIn = function() {
 
 	$(window).on('mousemove', $.proxy(this.onMouseMove, this));
 
-	this.videoFg.on('timeupdate',$.proxy(this.timeUpdate, this));
-	this.videoFg.on('ended',$.proxy(this.closeTrailer, this));
+	this.popImg();
 };
 Room.prototype.timeUpdate = function() {
 	var currentTime = this.videoFg[0].currentTime;
@@ -215,7 +246,6 @@ Room.prototype.onTimeUpdatePopBox = function() {
 		}
 	});
 };
-
 
 
 // PARALLAX

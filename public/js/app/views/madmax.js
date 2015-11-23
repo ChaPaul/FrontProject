@@ -8,6 +8,10 @@ var Madmax = function  () {
 	this.sourceBg = "assets/trailer/SD/madmax_1.mp4";
 	this.posterBg = "img/madmax/wallpaper.jpg";
 
+	this.imgLeft = '<img class="start-img img-left" src="img/madmax/max.png" alt="max">';
+	this.imgRight = '<img class="start-img img-right" src="img/madmax/furiosa.png" alt="furiosa">';
+
+
 	this.film = {};
 	this.film.title = "MADMAX";
 	this.film.subtitle = "Fury Road";
@@ -200,3 +204,7 @@ var Madmax = function  () {
 	Room.apply(this, arguments);
 }
 Madmax.prototype = Object.create(Room.prototype);
+
+Madmax.prototype.show = function() {
+	Room.prototype.show.call(this);
+};

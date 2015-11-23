@@ -1,0 +1,98 @@
+/* SYNOPSIS */
+#syno {
+  background-color: #fff;
+  height: 100vh;
+  width: 60vw;
+  position: fixed;
+  z-index: 5;
+  right: 0;
+  top: 0; }
+  #syno .content-container {
+    display: block;
+    height: auto;
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    margin: 20px 20px 20px 0px;
+    padding: 30px;
+    background-color: #ededed; }
+    #syno .content-container .syno-nav {
+      margin-top: 30px;
+      width: 100%;
+      font-family: "lato-regular"; }
+    #syno .content-container .syno-title {
+      box-shadow: -8px 8px 0px 0px #ededed;
+      background-color: #fff;
+      padding: 10px 20px 10px 20px;
+      color: #e8ba5b;
+      font-family: "lato-bold";
+      line-height: 50px;
+      vertical-align: middle;
+      font-size: 3em;
+      position: absolute;
+      top: 10%;
+      left: -10%; }
+    #syno .content-container .syno-real {
+      margin-top: 160px;
+      font-family: "lato-bold";
+      font-size: 0.9em; }
+  #syno svg {
+    fill: #1e1e1e; }
+  #syno .content {
+    margin-top: 47px;
+    font-family: "brandon-regular";
+    font-size: 1em; }
+  #syno .cta-container {
+    width: 100%;
+    display: block;
+    position: relative;
+    margin-top: 30px;
+    -webkit-transform: none;
+    transform: none; }
+    #syno .cta-container .cta {
+      display: inline-block;
+      width: 200px;
+      margin-left: 4%;
+      margin-right: 4%;
+      margin-bottom: 10px;
+      height: 35px;
+      position: relative;
+      padding: 1%;
+      box-sizing: border-box;
+      background-image: none;
+      background-color: #dcdcdc;
+      cursor: pointer;
+      transition: all 0.2s ease-in;
+      color: #838383;
+      opacity: 1;
+      border: 1px solid #ccc;
+      animation: none;
+      text-transform: uppercase; }
+      #syno .cta-container .cta:after {
+        display: none; }
+      #syno .cta-container .cta:hover {
+        opacity: 1 !important;
+        background-color: #838383 !important; }
+    #syno .cta-container .cta:hover {
+      background-color: pink;
+      color: #fff; }
+
+.nav {
+  display: inline-block;
+  color: #a2a2a2;
+  border-bottom: 1px solid #a2a2a2;
+  padding: 1%;
+  cursor: pointer;
+  transition: all 0.2s ease-in;
+  box-sizing: border-box;
+  width: 31.33333%;
+  text-align: center; }
+  .nav:first-child {
+    margin-right: 2%; }
+  .nav:last-child {
+    margin-left: 2%; }
+  .nav.clicked, .nav:hover {
+    color: #1e1e1e;
+    border-bottom-color: #1e1e1e; }

@@ -5,6 +5,9 @@ var Rango = function  () {
 	this.sourceFg = "assets/trailer/rango.mp4";
 	this.posterFg = "img/rango/wallpaper.jpg";
 
+	this.imgLeft = '<img id="rangoImg" class="start-img img-left" src="img/rango/rango.png" alt="rango">';
+	this.imgRight = '<img id="jackImg" class="start-img img-right" src="img/rango/jack.png" alt="jack">';
+
 	this.sourceBg = "assets/trailer/SD/rango_1.mp4";
 	this.posterBg = "img/rango/wallpaper.jpg";
 
@@ -13,16 +16,18 @@ var Rango = function  () {
 	this.film.title = "RANGO";
 	this.film.subtitle = "La Poursuite De L'Eau";
 
+	this.film.synopsis = "";
+	this.film.background = "";
 
-
+	// box trailer interactif
 	var popBox =[
 		{
 			"time"  : 9,
 			"size"  : 'big',
 			"title" : 'The nozzle',
 			"desc"  : 'The nozzle guided by an animal\'s stomach enjoying the well croistiant dragging lizard in the desert',
-			"posX"  : 20+'%',
-			"posY"  : 50+'%',
+			"posX"  : 20,
+			"posY"  : 50,
 			"axe"   : 'right',
 		},
 		{
@@ -30,8 +35,8 @@ var Rango = function  () {
 			"size"  : 'big',
 			"title" : 'Rango ',
 			"desc"  : 'Rango is a comedian who dreams of becoming someone he will face many dangers before accomplire his dream',
-			"posX"  : 80+'%',
-			"posY"  : 10+'%',
+			"posX"  : 80,
+			"posY"  : 10,
 			"axe"   : 'left',
 		},
 		{
@@ -39,8 +44,8 @@ var Rango = function  () {
 			"size"  : 'medium',
 			"title" : 'At this moment he knew ',
 			"desc"  : '',
-			"posX"  : 80+'%',
-			"posY"  : 10+'%',
+			"posX"  : 80,
+			"posY"  : 10,
 			"axe"   : 'right',
 		},
 		{
@@ -48,8 +53,8 @@ var Rango = function  () {
 			"size"  : 'small',
 			"title" : 'a liquorice',
 			"desc"  : '',
-			"posX"  : 80+'%',
-			"posY"  : 10+'%',
+			"posX"  : 80,
+			"posY"  : 10,
 			"axe"   : 'right',
 		},
 		{
@@ -57,8 +62,8 @@ var Rango = function  () {
 			"size"  : 'big',
 			"title" : 'Bean',
 			"desc"  : 'Bean, desert lizard looking to protect its land from drought',
-			"posX"  : 80+'%',
-			"posY"  : 10+'%',
+			"posX"  : 80,
+			"posY"  : 10,
 			"axe"   : 'right',
 		},
 		{
@@ -66,8 +71,8 @@ var Rango = function  () {
 			"size"  : 'big',
 			"title" : 'Cactus liquor',
 			"desc"  : 'Cactus liquor is very popular in the desert, as strong as a cactus',
-			"posX"  : 80+'%',
-			"posY"  : 10+'%',
+			"posX"  : 80,
+			"posY"  : 10,
 			"axe"   : 'right',
 		},
 		{
@@ -75,8 +80,8 @@ var Rango = function  () {
 			"size"  : 'big',
 			"title" : 'The bad guy',
 			"desc"  : 'when you were told that cactus alcohol is very strong. Otherwise the real name of the villain is bad bill',
-			"posX"  : 80+'%',
-			"posY"  : 10+'%',
+			"posX"  : 80,
+			"posY"  : 10,
 			"axe"   : 'right',
 		},
 		{
@@ -84,8 +89,8 @@ var Rango = function  () {
 			"size"  : 'small',
 			"title" : 'cactus liquor',
 			"desc"  : '',
-			"posX"  : 80+'%',
-			"posY"  : 10+'%',
+			"posX"  : 80,
+			"posY"  : 10,
 			"axe"   : 'right',
 		},
 		{
@@ -93,8 +98,8 @@ var Rango = function  () {
 			"size"  : 'big',
 			"title" : 'John',
 			"desc"  : 'John turtle is the mayor of the town of Dirt and also a businessman heartless',
-			"posX"  : 80+'%',
-			"posY"  : 10+'%',
+			"posX"  : 80,
+			"posY"  : 10,
 			"axe"   : 'right',
 		},
 		{
@@ -102,8 +107,8 @@ var Rango = function  () {
 			"size"  : 'small',
 			"title" : 'Sherif’s star',
 			"desc"  : '',
-			"posX"  : 80+'%',
-			"posY"  : 10+'%',
+			"posX"  : 80,
+			"posY"  : 10,
 			"axe"   : 'right',
 		},
 		{
@@ -111,8 +116,8 @@ var Rango = function  () {
 			"size"  : 'big',
 			"title" : 'Bad bill',
 			"desc"  : 'Bad bill ready to unsheathe it is noted that the area of merry companions is very engaging',
-			"posX"  : 80+'%',
-			"posY"  : 10+'%',
+			"posX"  : 80,
+			"posY"  : 10,
 			"axe"   : 'right',
 		},
 		{
@@ -120,8 +125,8 @@ var Rango = function  () {
 			"size"  : 'small',
 			"title" : 'a gun',
 			"desc"  : '',
-			"posX"  : 80+'%',
-			"posY"  : 10+'%',
+			"posX"  : 80,
+			"posY"  : 10,
 			"axe"   : 'right',
 		},
 		{
@@ -129,8 +134,8 @@ var Rango = function  () {
 			"size"  : 'small',
 			"title" : 'Rango',
 			"desc"  : 'our hero in search of an idea for him to escape from this trap',
-			"posX"  : 80+'%',
-			"posY"  : 10+'%',
+			"posX"  : 80,
+			"posY"  : 10,
 			"axe"   : 'right',
 		}
 
@@ -140,6 +145,7 @@ var Rango = function  () {
 	Room.apply(this, arguments);
 }
 Rango.prototype = Object.create(Room.prototype);
+
 Rango.prototype.timeUpdate = function() {
 
 	Room.prototype.timeUpdate.call(this);

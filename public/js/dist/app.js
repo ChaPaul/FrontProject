@@ -71,8 +71,11 @@ Room.prototype.show = function() {
 	this.init();
 
 	this.bind();
-
 	var self = this;
+
+	setTimeout(function(){ 
+		$('.fullswitch').css('display','none');
+	}, 3000);
 
 	this.domElem.fadeIn(function(){
 
@@ -86,10 +89,17 @@ Room.prototype.show = function() {
 Room.prototype.hide = function(callback) {
 	// unbind
 	this.unbind();
+	this.removeImg();
+
+	var self = this;
 	
-	this.domElem.fadeOut(function(){
-		callback();
-	});
+	$('.fullswitch').css('display','block');
+	
+	setTimeout(function(){
+		self.domElem.fadeOut(function(){
+			callback();
+		});
+	}, 1200);
 };
 Room.prototype.unbind = function() {
 
@@ -126,12 +136,17 @@ Room.prototype.bind = function() {
 
 	// keyboard
 	$(window).on('keydown',$.proxy(this.onKeyDown, this));
+
+	// video
+	this.videoFg.on('timeupdate',$.proxy(this.timeUpdate, this));
+	this.videoFg.on('ended',$.proxy(this.closeTrailer, this));
 };
 Room.prototype.onTrailerCtaClick = function() {
 	var self = this;
 	if ( this.domElem.is(':visible') && this.videoBg[0].paused){
 		$('.subtitle').fadeOut();
 		$('.cta-container').fadeOut();
+		this.removeImg();
 		$('.title-container').fadeOut(function(){
 			$('.progress').show();
 			self.cross.show();
@@ -143,6 +158,8 @@ Room.prototype.onTrailerCtaClick = function() {
 };
 Room.prototype.onSynopsisCtaClick = function() {
 	// we'll see
+	this.removeImg();
+
 	var synopsis = new Synopsis(this.film);
 	synopsis.show();
 };
@@ -198,18 +215,32 @@ Room.prototype.closeTrailer = function() {
 	this.videoBg[0].pause();
 	this.videoFg[0].pause();
 	this.play.hide();
+	this.popImg();
 
 	$('.subtitle').fadeIn();
 	$('.cta-container').fadeIn();
 	$('.title-container').fadeIn();
+
+};
+
+Room.prototype.removeImg = function() {
+	// animation image OUT ...
+
+	// then
+	$(".start-img").remove();
+};
+Room.prototype.popImg = function() {
+	// ajout des images
+	$(this.imgRight).appendTo($( "body" ));
+	$(this.imgLeft).appendTo($( "body" ));
+	// animations
 };
 
 Room.prototype.onAnimateIn = function() {
 
 	$(window).on('mousemove', $.proxy(this.onMouseMove, this));
 
-	this.videoFg.on('timeupdate',$.proxy(this.timeUpdate, this));
-	this.videoFg.on('ended',$.proxy(this.closeTrailer, this));
+	this.popImg();
 };
 Room.prototype.timeUpdate = function() {
 	var currentTime = this.videoFg[0].currentTime;
@@ -250,7 +281,6 @@ Room.prototype.onTimeUpdatePopBox = function() {
 };
 
 
-
 // PARALLAX
 // Notre DOM est composé d'element avec ce type de données
 // ex : <div data-axe="x" data-speed="100">
@@ -275,14 +305,14 @@ Synopsis.prototype.show = function() {
 	var self = this;
 
 	$('div.trailer-container').fadeOut('fast');
-	$("#syno").animate({width:'toggle'},350,function(){
+	$("#syno").animate({width:'toggle'},200,function(){
 		self.bind();
 		$('#syno .cross').show();
 	});
 };
 Synopsis.prototype.hide = function(callback) {
 	this.unbind();
-	$("#syno").animate({width:'toggle'},350,function(){
+	$("#syno").animate({width:'toggle'},200,function(){
 		$('div.trailer-container').fadeIn('fast');
 	});
 };
@@ -354,6 +384,10 @@ var Madmax = function  () {
 
 	this.sourceBg = "assets/trailer/SD/madmax_1.mp4";
 	this.posterBg = "img/madmax/wallpaper.jpg";
+
+	this.imgLeft = '<img class="start-img img-left" src="img/madmax/max.png" alt="max">';
+	this.imgRight = '<img class="start-img img-right" src="img/madmax/furiosa.png" alt="furiosa">';
+
 
 	this.film = {};
 	this.film.title = "MADMAX";
@@ -547,12 +581,19 @@ var Madmax = function  () {
 	Room.apply(this, arguments);
 }
 Madmax.prototype = Object.create(Room.prototype);
+
+Madmax.prototype.show = function() {
+	Room.prototype.show.call(this);
+};
 var Rango = function  () {
 
 	this.nameView = "rango";
 
 	this.sourceFg = "assets/trailer/rango.mp4";
 	this.posterFg = "img/rango/wallpaper.jpg";
+
+	this.imgLeft = '<img id="rangoImg" class="start-img img-left" src="img/rango/rango.png" alt="rango">';
+	this.imgRight = '<img id="jackImg" class="start-img img-right" src="img/rango/jack.png" alt="jack">';
 
 	this.sourceBg = "assets/trailer/SD/rango_1.mp4";
 	this.posterBg = "img/rango/wallpaper.jpg";
@@ -562,16 +603,18 @@ var Rango = function  () {
 	this.film.title = "RANGO";
 	this.film.subtitle = "La Poursuite De L'Eau";
 
+	this.film.synopsis = "";
+	this.film.background = "";
 
-
+	// box trailer interactif
 	var popBox =[
 		{
 			"time"  : 9,
 			"size"  : 'big',
 			"title" : 'The nozzle',
 			"desc"  : 'The nozzle guided by an animal\'s stomach enjoying the well croistiant dragging lizard in the desert',
-			"posX"  : 20+'%',
-			"posY"  : 50+'%',
+			"posX"  : 20,
+			"posY"  : 50,
 			"axe"   : 'right',
 		},
 		{
@@ -579,8 +622,8 @@ var Rango = function  () {
 			"size"  : 'big',
 			"title" : 'Rango ',
 			"desc"  : 'Rango is a comedian who dreams of becoming someone he will face many dangers before accomplire his dream',
-			"posX"  : 80+'%',
-			"posY"  : 10+'%',
+			"posX"  : 80,
+			"posY"  : 10,
 			"axe"   : 'left',
 		},
 		{
@@ -588,8 +631,8 @@ var Rango = function  () {
 			"size"  : 'medium',
 			"title" : 'At this moment he knew ',
 			"desc"  : '',
-			"posX"  : 80+'%',
-			"posY"  : 10+'%',
+			"posX"  : 80,
+			"posY"  : 10,
 			"axe"   : 'right',
 		},
 		{
@@ -597,8 +640,8 @@ var Rango = function  () {
 			"size"  : 'small',
 			"title" : 'a liquorice',
 			"desc"  : '',
-			"posX"  : 80+'%',
-			"posY"  : 10+'%',
+			"posX"  : 80,
+			"posY"  : 10,
 			"axe"   : 'right',
 		},
 		{
@@ -606,8 +649,8 @@ var Rango = function  () {
 			"size"  : 'big',
 			"title" : 'Bean',
 			"desc"  : 'Bean, desert lizard looking to protect its land from drought',
-			"posX"  : 80+'%',
-			"posY"  : 10+'%',
+			"posX"  : 80,
+			"posY"  : 10,
 			"axe"   : 'right',
 		},
 		{
@@ -615,8 +658,8 @@ var Rango = function  () {
 			"size"  : 'big',
 			"title" : 'Cactus liquor',
 			"desc"  : 'Cactus liquor is very popular in the desert, as strong as a cactus',
-			"posX"  : 80+'%',
-			"posY"  : 10+'%',
+			"posX"  : 80,
+			"posY"  : 10,
 			"axe"   : 'right',
 		},
 		{
@@ -624,8 +667,8 @@ var Rango = function  () {
 			"size"  : 'big',
 			"title" : 'The bad guy',
 			"desc"  : 'when you were told that cactus alcohol is very strong. Otherwise the real name of the villain is bad bill',
-			"posX"  : 80+'%',
-			"posY"  : 10+'%',
+			"posX"  : 80,
+			"posY"  : 10,
 			"axe"   : 'right',
 		},
 		{
@@ -633,8 +676,8 @@ var Rango = function  () {
 			"size"  : 'small',
 			"title" : 'cactus liquor',
 			"desc"  : '',
-			"posX"  : 80+'%',
-			"posY"  : 10+'%',
+			"posX"  : 80,
+			"posY"  : 10,
 			"axe"   : 'right',
 		},
 		{
@@ -642,8 +685,8 @@ var Rango = function  () {
 			"size"  : 'big',
 			"title" : 'John',
 			"desc"  : 'John turtle is the mayor of the town of Dirt and also a businessman heartless',
-			"posX"  : 80+'%',
-			"posY"  : 10+'%',
+			"posX"  : 80,
+			"posY"  : 10,
 			"axe"   : 'right',
 		},
 		{
@@ -651,8 +694,8 @@ var Rango = function  () {
 			"size"  : 'small',
 			"title" : 'Sherif’s star',
 			"desc"  : '',
-			"posX"  : 80+'%',
-			"posY"  : 10+'%',
+			"posX"  : 80,
+			"posY"  : 10,
 			"axe"   : 'right',
 		},
 		{
@@ -660,8 +703,8 @@ var Rango = function  () {
 			"size"  : 'big',
 			"title" : 'Bad bill',
 			"desc"  : 'Bad bill ready to unsheathe it is noted that the area of merry companions is very engaging',
-			"posX"  : 80+'%',
-			"posY"  : 10+'%',
+			"posX"  : 80,
+			"posY"  : 10,
 			"axe"   : 'right',
 		},
 		{
@@ -669,8 +712,8 @@ var Rango = function  () {
 			"size"  : 'small',
 			"title" : 'a gun',
 			"desc"  : '',
-			"posX"  : 80+'%',
-			"posY"  : 10+'%',
+			"posX"  : 80,
+			"posY"  : 10,
 			"axe"   : 'right',
 		},
 		{
@@ -678,8 +721,8 @@ var Rango = function  () {
 			"size"  : 'small',
 			"title" : 'Rango',
 			"desc"  : 'our hero in search of an idea for him to escape from this trap',
-			"posX"  : 80+'%',
-			"posY"  : 10+'%',
+			"posX"  : 80,
+			"posY"  : 10,
 			"axe"   : 'right',
 		}
 
@@ -689,6 +732,7 @@ var Rango = function  () {
 	Room.apply(this, arguments);
 }
 Rango.prototype = Object.create(Room.prototype);
+
 Rango.prototype.timeUpdate = function() {
 
 	Room.prototype.timeUpdate.call(this);
@@ -706,6 +750,10 @@ var Starwars = function  () {
 	this.sourceBg = "assets/trailer/SD/starwars_1.mp4";
 	this.posterBg = "img/starwars/wallpaper.jpg";
 
+	this.imgLeft = '<img id="coupleImg" class="start-img img-left" src="img/starwars/couple.png" alt="couple">';
+	this.imgRight = '<img id="kyloImg" class="start-img img-right flip-img" src="img/starwars/kylo2.png" alt="vilain">';
+
+
 	this.film = {};
 	this.film.title = "STAR WARS VII";
 	this.film.subtitle = "The Force Awakens";
@@ -716,8 +764,8 @@ var Starwars = function  () {
 			"size"  : 'big',
 			"title" : 'BB-8',
 			"desc"  : 'BB-8 is a astrodroid. Its round shape allows it to move it easily on all surfaces',
-			"posX"  : 20+'%',
-			"posY"  : 50+'%',
+			"posX"  : 20,
+			"posY"  : 50,
 			"axe"   : 'left'
 		},
 		{
@@ -725,8 +773,8 @@ var Starwars = function  () {
 			"size"  : 'small',
 			"title" : 'The sand dunes of Jakku',
 			"desc"  : '',
-			"posX"  : 80+'%',
-			"posY"  : 10+ '%',
+			"posX"  : 80,
+			"posY"  : 10,
 			"axe"   : 'right'
 		},
 		{
@@ -734,8 +782,8 @@ var Starwars = function  () {
 			"size"  : 'big',
 			"title" : 'Rey',
 			"desc"  : 'Rey is a looter wreck Jakku living on the planet, is one of the main characters in the series',
-			"posX"  : 80+'%',
-			"posY"  : 10+ '%',
+			"posX"  : 80,
+			"posY"  : 10,
 			"axe"   : 'right',
 		},
 		{
@@ -743,8 +791,8 @@ var Starwars = function  () {
 			"size"  : 'small',
 			"title" : 'piece of wreckage',
 			"desc"  : '',
-			"posX"  : 80+'%',
-			"posY"  : 10+ '%',
+			"posX"  : 80,
+			"posY"  : 10,
 			"axe"   : 'right',
 		},
 		{
@@ -752,8 +800,8 @@ var Starwars = function  () {
 			"size"  : 'big',
 			"title" : 'Finn',
 			"desc"  : 'Finn is a stormtrooper fugitive belonging to the first order. It is a main character in the series',
-			"posX"  : 80+'%',
-			"posY"  : 10+ '%',
+			"posX"  : 80,
+			"posY"  : 10,
 			"axe"   : 'right',
 		},
 		{
@@ -761,8 +809,8 @@ var Starwars = function  () {
 			"size"  : 'big',
 			"title" : 'Kylo Ren',
 			"desc"  : 'Kylo Ren is a member of Ren Knight and true worshiper of Darth Vader',
-			"posX"  : 80+'%',
-			"posY"  : 10+ '%',
+			"posX"  : 80,
+			"posY"  : 10,
 			"axe"   : 'right',
 		},
 		{
@@ -770,8 +818,8 @@ var Starwars = function  () {
 			"size"  : 'medium',
 			"title" : 'The wrecks of ancient war',
 			"desc"  : '',
-			"posX"  : 80+'%',
-			"posY"  : 10+ '%',
+			"posX"  : 80,
+			"posY"  : 10,
 			"axe"   : 'right',
 		},
 		{
@@ -779,8 +827,8 @@ var Starwars = function  () {
 			"size"  : 'medium',
 			"title" : 'TIE Fighter',
 			"desc"  : '',
-			"posX"  : 80+'%',
-			"posY"  : 10+ '%',
+			"posX"  : 80,
+			"posY"  : 10,
 			"axe"   : 'right',
 		},
 		{
@@ -788,8 +836,8 @@ var Starwars = function  () {
 			"size"  : 'medium',
 			"title" : 'Millénium falcon',
 			"desc"  : '',
-			"posX"  : 80+'%',
-			"posY"  : 10+ '%',
+			"posX"  : 80,
+			"posY"  : 10,
 			"axe"   : 'right',
 		},
 		{
@@ -797,8 +845,8 @@ var Starwars = function  () {
 			"size"  : 'big',
 			"title" : 'Han Solo',
 			"desc"  : 'Han Solo, the famous smuggler makes his return always accompanied by chewbakka',
-			"posX"  : 80+'%',
-			"posY"  : 10+ '%',
+			"posX"  : 80,
+			"posY"  : 10,
 			"axe"   : 'right',
 		},
 		{
@@ -806,8 +854,8 @@ var Starwars = function  () {
 			"size"  : 'small',
 			"title" : 'Elite guarde',
 			"desc"  : '',
-			"posX"  : 80+'%',
-			"posY"  : 10+ '%',
+			"posX"  : 80,
+			"posY"  : 10,
 			"axe"   : 'right',
 		},
 		{
@@ -815,8 +863,8 @@ var Starwars = function  () {
 			"size"  : 'medium',
 			"title" : 'Kylo Ren light saber',
 			"desc"  : '',
-			"posX"  : 80+'%',
-			"posY"  : 10+ '%',
+			"posX"  : 80,
+			"posY"  : 10,
 			"axe"   : 'right',
 		},
 		{
@@ -824,8 +872,8 @@ var Starwars = function  () {
 			"size"  : 'big',
 			"title" : 'Maz Kanata’s castle',
 			"desc"  : 'The castle of Maz Kanata is one of the marks of the Mandalorians, the origne the order of the Sith',
-			"posX"  : 80+'%',
-			"posY"  : 10+ '%',
+			"posX"  : 80,
+			"posY"  : 10,
 			"axe"   : 'right',
 		},
 		{
@@ -833,8 +881,8 @@ var Starwars = function  () {
 			"size"  : 'medium',
 			"title" : 'X-wing',
 			"desc"  : '',
-			"posX"  : 80+'%',
-			"posY"  : 10+ '%',
+			"posX"  : 80,
+			"posY"  : 10,
 			"axe"   : 'right',
 		},
 		{
@@ -842,8 +890,8 @@ var Starwars = function  () {
 			"size"  : 'small',
 			"title" : 'Mechanic hand',
 			"desc"  : '',
-			"posX"  : 80+'%',
-			"posY"  : 10+ '%',
+			"posX"  : 80,
+			"posY"  : 10,
 			"axe"   : 'right',
 		},
 		{
@@ -851,8 +899,8 @@ var Starwars = function  () {
 			"size"  : 'big',
 			"title" : 'R2-D2',
 			"desc"  : 'The famous astrodroid of the saga is back. His cheerful beep beep did not finish to make you laughs',
-			"posX"  : 80+'%',
-			"posY"  : 10+ '%',
+			"posX"  : 80,
+			"posY"  : 10,
 			"axe"   : 'right',
 		},
 		{
@@ -860,8 +908,8 @@ var Starwars = function  () {
 			"size"  : 'small',
 			"title" : 'Captain Phasma',
 			"desc"  : 'Phasma is a captain of stormtrooper. She wears a silver armor, which makes it even more mysterious',
-			"posX"  : 80+'%',
-			"posY"  : 10+ '%',
+			"posX"  : 80,
+			"posY"  : 10,
 			"axe"   : 'right',
 		},
 		{
@@ -869,8 +917,8 @@ var Starwars = function  () {
 			"size"  : 'small',
 			"title" : 'Silver Armor',
 			"desc"  : '',
-			"posX"  : 80+'%',
-			"posY"  : 10+ '%',
+			"posX"  : 80,
+			"posY"  : 10,
 			"axe"   : 'right',
 		},
 		{
@@ -878,8 +926,8 @@ var Starwars = function  () {
 			"size"  : 'small',
 			"title" : 'Stormtrooper',
 			"desc"  : 'The first order stormtrooper soldier faithful are always dressed with a white armor and armored',
-			"posX"  : 80+'%',
-			"posY"  : 10+ '%',
+			"posX"  : 80,
+			"posY"  : 10,
 			"axe"   : 'right',
 		},
 		{
@@ -887,8 +935,8 @@ var Starwars = function  () {
 			"size"  : 'small',
 			"title" : 'Landing ramp',
 			"desc"  : '',
-			"posX"  : 80+'%',
-			"posY"  : 10+ '%',
+			"posX"  : 80,
+			"posY"  : 10,
 			"axe"   : 'right',
 		}
 
@@ -898,3 +946,7 @@ var Starwars = function  () {
 	Room.apply(this, arguments);
 }
 Starwars.prototype = Object.create(Room.prototype);
+
+Starwars.prototype.show = function() {
+	Room.prototype.show.call(this);
+};

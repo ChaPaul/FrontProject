@@ -14,14 +14,14 @@ Synopsis.prototype.show = function() {
 	var self = this;
 
 	$('div.trailer-container').fadeOut('fast');
-	$("#syno").animate({width:'toggle'},350,function(){
+	$("#syno").animate({width:'toggle'},200,function(){
 		self.bind();
 		$('#syno .cross').show();
 	});
 };
 Synopsis.prototype.hide = function(callback) {
 	this.unbind();
-	$("#syno").animate({width:'toggle'},350,function(){
+	$("#syno").animate({width:'toggle'},200,function(){
 		$('div.trailer-container').fadeIn('fast');
 	});
 };
