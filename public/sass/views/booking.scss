@@ -4,22 +4,169 @@
 	height:0;
 	clear:both;
 }
-#seats {
-	background-color:gray;
-}
-.seat{
-	display:block;
-	width:100px;
-	height:100px;
-	background-color:white;
-	border-radius:50%;
-	margin:15px;
-	float:left;
-}
-.seat:hover{
-	cursor:pointer;
-	background-color:#2d8bca;
-}
-.seat.clicked{
-	background-color:#389adc;
+.booking{
+	margin-top:-50px;
+	margin-left:-50px;
+	position: absolute;
+	height:100%;
+	width:100%;
+	.choice{
+		background-color:white;
+		max-width:60%;
+		width:50%;
+		height:100%;
+		padding:20px;
+		overflow: hidden;
+		display:block;
+		float:left;
+		.back{
+			cursor: pointer;
+			color:black;
+			font-family: "brandon-bold";
+			margin:0 0 20px 0;
+			.left-arrow{
+				height:20px;
+				display: inline-block;
+				float:left;
+				width:15px;
+				background-image: url(../img/arrow.svg);
+				background-size: contain;
+				background-repeat: no-repeat;
+				background-position: center;
+				margin:0 10px 0 0;
+			}
+		}
+		.seances{
+			padding:0 30px;
+			.titre{
+				margin-bottom:20px;
+				h1{
+					font-size: 1.5em;
+					text-transform: uppercase;
+					font-family: "lato-light";
+					display: inline-block;
+				}
+				.separator{
+					border-top:1px solid black;
+					width:75%;
+					height:6px;
+					margin-left:10px;
+					display: inline-block;
+				}
+			}
+			.listes{
+				width:200%;
+				display: block;
+				margin-left:-50%;
+				padding:10px 0;
+				li{
+					display: inline-block;
+					width:100px;
+					cursor: pointer;
+					margin:0 10px;
+					text-align: center;
+					h2.date{
+						font-family: "brandon-medium";
+					}
+					p{
+						font-family: "lato-regular";
+						font-size:0.8em;
+						&.complet{
+							color:#c02729;
+						}
+					}
+					&.selected h2.date{
+						color:#ffc600;
+					}
+				}
+			}
+			.zoneCinema{
+				display: block;
+				width:120%;
+				margin-left:-10%;
+			}
+		}
+	}
+	.resume{
+		width:45%;
+		height:100%;
+		display:block;
+		float:left;
+		.fiche{
+			background-color:white;
+			margin:50px;
+			.recap{
+				padding:50px;
+				text-align: center;
+				h1{
+					font-size:2em;
+					font-family: "lato-light";
+				}
+				h2{
+					font-size:1.5em;
+					font-family: "brandon-black";
+				}
+				.separator{
+					border-top:1px solid black;
+					width:100%;
+					margin-top:20px;
+					height:40px;
+				}
+				.desc{
+					text-align: left;
+					li{
+						display: block;
+						height:50px;
+						width:100%;
+						font-size:1.3em;
+						font-family: "lato-regular";
+						.qt{
+							float:left;
+						}
+						.prix{
+							float:right;
+						}
+					}
+				}
+				.total{
+					text-align: right;
+					font-size:3.5em;
+					font-family: "lato-light";
+					&:after{
+						content:"€";
+						font-size:0.6em;
+					}
+				}
+			}
+			.cancel{
+				height:50px;
+				width:100%;
+				border:none;
+				background-color:#eee;
+				color:#bfbfbf;
+				text-transform: uppercase;
+				font-family: "brandon-regular";
+				cursor:pointer;
+				&:hover{
+					background-color:#d9d9d9;
+					color:white;
+				}
+			}
+			.valid{
+				height:50px;
+				width:100%;
+				border:none;
+				background-color:#ffc600;
+				color:white;
+				text-transform: uppercase;
+				font-family: "brandon-bold";
+				letter-spacing: 1px;
+				cursor:pointer;
+				&:hover{
+					background-color:#efbc0d;
+					color:white;
+				}
+			}
+		}
+	}
 }
