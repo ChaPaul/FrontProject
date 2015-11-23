@@ -8,6 +8,7 @@
   height: 90vh;
   transform: translateX(-30%) scale(-1, 1);
   -webkit-transform: translateX(-30%) scale(-1, 1);
+  animation: appa-left 1.5s ease 0s 1;
   /*pour pouvoir click à travers l'img*/
   pointer-events: none; }
 
@@ -23,10 +24,18 @@
 
 #coupleImg {
   left: -2% !important;
-  transform: none !important; }
+  transform: translateX(-10%) scale(1, 1);
+  -webkit-transform: translateX(-10%) scale(1, 1);
+  animation: appa-left-bis 1.5s ease 0s 1 !important; }
 
 #kyloImg {
   left: 95% !important; }
+
+#furiosa {
+  left: -2% !important; }
+
+#madmax {
+  right: -2% !important; }
 
 .img-right {
   z-index: 2;
@@ -37,7 +46,32 @@
   transform: translateX(-70%) scale(-1, 1);
   -webkit-transform: translateX(-70%) scale(-1, 1);
   /*pour pouvoir click à travers l'img*/
-  pointer-events: none; }
+  pointer-events: none;
+  animation: appa-right 1.5s ease 0s 1; }
+
+@keyframes appa-left {
+  0% {
+    transform: translateX(-100%) scale(-1, 1);
+    -webkit-transform: translateX(-100%) scale(-1, 1); }
+  100% {
+    transform: translateX(-30%) scale(-1, 1);
+    -webkit-transform: translateX(-30%) scale(-1, 1); } }
+
+@keyframes appa-left-bis {
+  0% {
+    transform: translateX(-100%) scale(1, 1);
+    -webkit-transform: translateX(-100%) scale(1, 1); }
+  100% {
+    transform: translateX(-10%) scale(1, 1);
+    -webkit-transform: translateX(-10%) scale(1, 1); } }
+
+@keyframes appa-right {
+  0% {
+    transform: translateX(0%) scale(-1, 1);
+    -webkit-transform: translateX(0%) scale(-1, 1); }
+  100% {
+    transform: translateX(-70%) scale(-1, 1);
+    -webkit-transform: translateX(-70%) scale(-1, 1); } }
 
 /*correctif IMG*/
 @media (max-width: 1000px) {
